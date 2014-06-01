@@ -37,7 +37,7 @@ config_files_completions=($BASHRC/**/completion.bash)
 # load the path files
 for file in ${config_files_paths} ;
 do
-  echo "Sourcing paths: $file"
+  #echo "Sourcing paths: $file"
   source $file
 done
 
@@ -45,7 +45,7 @@ done
 files=(${config_files[@]#*/path.bash})
 for file in ${files[@]#*/completion.bash} ;
 do
-  echo "Sourcing anything but paths and completion: $file"
+  #echo "Sourcing anything but paths and completion: $file"
   source $file
 done
 
@@ -56,8 +56,8 @@ done
 # load every completion after autocomplete loads
 for file in ${config_files_completions} ;
 do
-  echo "Sourcing completions: $file"
-  #source $file
+  #echo "Sourcing completions: $file"
+  source $file
 done
 
 unset config_files
