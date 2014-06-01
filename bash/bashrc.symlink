@@ -1,0 +1,576 @@
+# $Id: .bashrc,v 1.45 2014/04/17 18:58:23 bboerner Exp bboerner $
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+
+fi
+
+#
+# begin Dotfiles
+# Inspired by: Zach Holman's Dotfiles Are Meant to Be Forked"
+# (http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/)
+#
+
+# shortcut to this dotfiles path is $BASHRC
+export BASHRC=$HOME/.dotfiles
+
+# your project folder that we can `c [tab]` to
+export PROJECTS=~/play
+
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+if [[ -a ~/.bash_localrc ]]
+then
+  source ~/.bash_localrc
+fi
+
+if true ; then
+# all of our bash files
+#typeset -U config_files
+#config_files=($ZSH/**/*.zsh)
+config_files=($BASHRC/**/*.bash)
+config_files_paths=($BASHRC/**/path.bash)
+config_files_completions=($BASHRC/**/completion.bash)
+
+
+# load the path files
+for file in ${config_files_paths} ;
+do
+  echo "Sourcing paths: $file"
+  source $file
+done
+
+# load everything but the path and completion files
+files=(${config_files[@]#*/path.bash})
+for file in ${files[@]#*/completion.bash} ;
+do
+  echo "Sourcing anything but paths and completion: $file"
+  source $file
+done
+
+# initialize autocomplete here, otherwise functions won't be loaded
+#autoload -U compinit
+#compinit
+
+# load every completion after autocomplete loads
+for file in ${config_files_completions} ;
+do
+  echo "Sourcing completions: $file"
+  #source $file
+done
+
+unset config_files
+unset config_files_paths
+unset config_files_completions
+
+fi
+
+#
+# end Dotfiles
+#
+
+
+if false ; then
+export EDITOR=vi
+export EDITOR='epsilon -p0'
+fi
+
+system_cpu=`uname -m`
+kernel_name=`uname -s`
+
+cygwin=0
+if [[ "${kernel_name%*_NT-5*}" = "CYGWIN" || "${kernel_name%*_NT-6*}" = "CYGWIN" ]]; then
+    export cygwin=1
+    export CYGWIN="nodosfilewarning"
+fi
+
+#
+#
+#
+
+if [[ $cygwin -eq 0 ]]; then
+    ulimit -c 1000000000;
+else
+    ulimit -c 1000000;
+fi
+
+# packlist(): given a colon separated list, remove pairs of "::" e.g.
+# "a:b:c::d:e:f" becomes "a:b:c:d:e:f".
+
+function packlist() {
+    if [[ $# -lt 1 ]]; then
+        return 1
+    fi
+
+    local varname=$1
+    local value=${!varname}
+    shift
+
+    dirs=${value//:/ }
+
+    result=
+    for d in ${dirs}; do
+	result=${result:+$result:}${d}
+    done
+    printf "%s" "${result}"
+    return 0
+}
+
+function _modlist () {
+    if [[ $# -lt 2 ]]; then
+        return 1
+    fi
+
+    local newvalue=
+    local p
+    local varname=$1
+    local value=${!varname}
+    shift
+
+    for p; do
+        case ":$value:" in
+            *:"$p":*) ;;
+            *)
+                if [[ -z $newvalue ]]; then
+                    newvalue="$p"
+                else
+                    newvalue="$newvalue:$p"
+                fi
+                ;;
+        esac
+    done
+    printf "%s" "$newvalue"
+    return 0
+}
+
+function modlist () {
+    local newvalue
+    local varname=$1
+    local value=${!varname}
+
+    if ! newvalue=$(_modlist "$@"); then echo "usage: modlist: VARIABLE args"; return ;fi
+    if [[ -z $value ]]; then
+        value="$newvalue"
+    else
+        value="$newvalue:$value"
+    fi
+
+    eval $varname=$value
+}
+
+function modlist_end () {
+    local newvalue
+    local varname=$1
+    local value=${!varname}
+
+    if [[ $# -lt 2 ]]; then
+        echo "usage: modlist_end: VARIABLE args"; return
+    fi
+        
+    if ! newvalue=$(_modlist "$@"); then echo "usage: modlist_end: VARIABLE args"; return ;fi
+    if [[ -z $value ]]; then
+        value="$newvalue"
+    else
+        value="$value:$newvalue"
+    fi
+
+    eval $varname=$value
+}
+
+function svn_find {
+    find $* | grep -v .svn
+}
+
+#
+#  Theron Boerner, 12/14/12
+#
+
+function ipssh {
+    ip=$(cat $HOME/Dropbox/ip.txt);
+    user="bboerner"
+    port=2332
+    ssh $user@$ip -p $port
+}
+
+#
+#
+#
+
+WORK=$HOME/trees
+
+export PAGER=less
+
+if false ; then
+# misc from Jeff Bone
+HISTSIZE=1000000
+HISTFILESIZE=1000000
+export HISTSIZE
+export HISTFILESIZE
+shopt -s histappend
+history -a "$HISTFILE"
+fi
+
+# John Dawson: "Regarding shopt -s extglob: this is something I always
+# have on in my login shells, and many of my Bash scripts. I wish we
+# had this in hbi's .bashrc, and everyone else's too. This is a
+# less-well-known but incredibly handy Bash tool to have in your
+# toolbox. I highly recommend it, and am horrified that Bash doesn't
+# have this option on by default. "
+shopt -s extglob
+
+export HOSTNAME
+
+function echo_i() {
+    while (($#)); do
+	echo -n $1 "";
+	shift;
+    done
+    echo ""
+}
+
+eps_state=""
+eps_session=""
+if [[ $cygwin -ne 0 ]]; then
+    eps_state=$(cygpath -m "c:\Users\bboerner\AppData\Roaming\Lugaru\Epsilon\epsilon-v13.sta")
+    eps_session=$(cygpath -m "c:\Users\bboerner\AppData\Roaming\Lugaru\Epsilon\epsilon.ses")
+
+    function cyg_explorer {
+        if [ "${1}" = "" ];
+            then
+                XPATH=".";
+            else
+                XPATH="$(cygpath -C ANSI -w "${1}")";
+        fi
+        explorer $XPATH &
+
+    }
+
+    function home() {
+        if [[ $# -ne 1 ]]; then 
+            echo "usage: home <drive_letter>";
+            return
+        fi
+
+        pushd .
+        cd /$1/Users/$USER; 
+    }
+
+    [[ -f /usr/bin/git ]] && alias git-svn="git svn"
+
+    function u2d {
+        if [[ -z $1 ]]; then
+            echo "Usage: u2d <path>" ;
+            return
+        fi 
+
+        echo \"$(cygpath -w -a $1)\"
+    }
+
+    function d2u {
+        if [[ -z $1 ]]; then
+            echo "Usage: d2u <path>" ;
+            return
+        fi 
+
+        echo \"$(cygpath -u -a $1)\"
+    }
+fi
+
+#
+# Epsilon
+#
+
+if false ; then
+
+# tbd1234: make this smarter (check for file)
+eps_geometry=""
+
+function epx {
+    tgt=epsilon
+
+	if false; then
+		winetgt=/home/bboerner/.wine/drive_c/Program\ Files/Eps13/bin/epsilon.exe
+		if [[ -f $winetgt ]] ; then
+			tgt="wine \"$winetgt\""
+			echo "tgt: $tgt"
+		else
+			echo "Didn't find Epsilon at \"$winetgt\"."
+		fi
+	fi
+
+    if [[ -f $eps_state && -f $eps_session ]] ; then
+        #echo "Using eps_state / eps_session"
+        $tgt -server:epx -add $eps_geometry -p"$eps_session" -s"$eps_state" $*
+    else
+        #echo "Not using eps_state / eps_session"
+        $tgt -server:epx -add $eps_geometry $*
+    fi
+}
+
+fi
+
+#
+# end Epsilon
+#
+
+
+
+[[ $cygwin -eq 1 ]] && alias firefox='/c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe $*'
+[[ $cygwin -eq 1 ]] && alias boa='python "c:\Python27\Lib\site-packages\boa-constructor\Boa.py"'
+
+function itunes {
+    tgt="/home/bboerner/.wine/drive_c/Program Files/iTunes/iTunes.exe"
+    if [[ -f "$tgt" ]] ; then
+        wine "$tgt" > /dev/null 2>&1 
+    else
+        echo "Didn't find iTunes at \"$tgt\"."
+    fi
+}
+
+export hostname=$HOSTNAME
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a'
+    #export PS1='\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+if false ; then
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir -lF --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+fi
+
+
+#export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a; history -r'
+export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a'
+#export PROMPT_COMMAND='history -a'
+#export PS1='\u@\h:\w\$ '
+
+# User specific aliases and functions
+alias c=cat
+alias cls=clear
+alias del='rm'
+#alias dir='ls -lF'
+alias ep='epsilon -server:ept -add -vt'
+alias epnoadd='epsilon -vt'
+alias epxnoadd='epsilon -geometry 110x50+0+0 $*'
+
+alias grep='grep --color=auto'
+alias h=history
+alias hg='h | grep'
+#alias import_vars='source ~/.bashrc_exported'
+alias j=jobs
+alias l=less
+alias rd=rmdir
+alias m=more
+alias md=mkdir
+alias psawx='ps awx | grep'
+alias psaux='ps auxww | grep'
+alias psssh='ps awx | grep ssh'
+#alias screen='export_vars; screen -e^Nn'
+# work around problem where aliases aren't in sub-shells
+[[ $cygwin -eq 1 ]] && alias screen='screen -s bash'
+alias ssync='rsync -essh'
+alias ssyncz='ssync -z'
+alias vg='xfsstart&&wm=gnome-session vncserver -name gnome-bboerner -geometry 1152x896'
+
+# Project specific
+
+# 'Project X'
+alias avida='cd /home/bboerner/opensrc/avida-2.3.0/'
+alias px='cd /home/bboerner/projects/x'
+alias cppsandbox='cd /home/bboerner/projects/c++/sandbox'
+alias libmp='cd /home/bboerner/projects/c++/libmp'
+alias platform='cd /home/bboerner/projects/platform'
+
+case $HOSTNAME in
+    laptop*|Boerner*|surrender*|lan*|localhost*|newpc*|centos*|profitable*|prometheus*|love*)
+        ;;
+esac
+
+# I can fix this if needed
+if false; then
+case $HOSTNAME in
+    *)
+        JAVA_HOME=$HOME/usr/local/java
+        ;;
+esac
+
+export JAVA_HOME
+export PATH=$JAVA_HOME/bin:$PATH
+
+# ~/usr/local/lib
+MY_LIBS=
+if [ -d ~/usr/local/lib ]; then
+    MY_LIBS=~/usr/local/lib
+fi
+
+fi
+
+[[ -d $HOME/.local/bin ]] && export PATH=$HOME/.local/bin:$PATH
+[[ -d $HOME/bin ]] && export PATH=$HOME/bin:$PATH
+[[ -d $HOME/usr/local/bin ]] && export PATH=$HOME/usr/local/bin:$PATH
+[[ -d $HOME/usr/local/jhbuild/bin ]] && export PATH=$HOME/usr/local/jhbuild/bin:$PATH
+[[ -d $HOME/usr/local/anaconda/bin ]] && export PATH=$HOME/usr/local/anaconda/bin:$PATH
+# Google Dart
+[[ -d $HOME/.local/dart/dart-sdk/bin ]] && export PATH=$HOME/.local/dart/dart-sdk/bin:$PATH
+
+#
+#   Left here for 32-bit vs. 64-bit example; also useful for Cygwin
+#   vs. Linux
+#
+
+if false; then
+[[ -d /opt/local/bin ]] && modlist PATH /opt/local/bin
+
+[[ "$system_cpu" = "x86_64" && -d /home/software/runtime-gcc-m64-v1/bin ]] && modlist PATH /home/software/runtime-gcc-m64-v1/bin
+[[ "$system_cpu" = "x86_64" && -d /home/software/runtime-gcc-m64-v1/share/man ]] && modlist MANPATH /home/software/runtime-gcc-m64-v1/share/man
+[[ "$system_cpu" = "x86_64" && -d /home/software/runtime-gcc-m64-v1/share/info ]] && modlist INFOPATH /home/software/runtime-gcc-m64-v1/share/info
+
+[[ -d $HOME/home/software/runtime-gcc-v1/bin ]] && modlist PATH $HOME/home/software/runtime-gcc-v1/bin
+[[ "$system_cpu" = "x86_64" && -d $HOME/home/software/runtime-gcc-m64-v1/bin ]] && modlist PATH $HOME/home/software/runtime-gcc-m64-v1/bin
+
+fi
+
+case $HOSTNAME in
+    # dunno if I want this
+    lan*|Boerner*|surrender*|lan*|localhost*|newpc*|centos*|profitable*|prometheus*|love*)
+        STREAMRIPPER_BIN=$HOME/usr/local/streamripper/bin
+        STREAMRIPPER_LIBS=$HOME/usr/local/streamripper/libs
+        _PYTHONPATH=$HOME/usr/local/gdata/lib/python
+
+        #_POST_BIN=$HOME/opt/local/bin
+        _POST_BIN=$STREAMRIPPER_BIN:$_POST_BIN
+        _POST_BIN="/opt/local/Library/Frameworks/Python.framework/Versions/2.5/bin":$_POST_BIN
+        _LIB=$_LIB:$STREAMRIPPER_LIBS
+        ;;
+
+
+    *)
+        ;;
+esac
+
+# dunno if I want this
+if false; then
+    export PATH=$_POST_BIN:$HOME/bin:$HOME/usr/local/bin:$HOME/usr/local/sbin:/sbin:/usr/sbin:$PATH
+    export PYTHONPATH=$_PYTHONPATH
+fi
+
+#
+#
+#
+
+# don't think this ever worked...
+if false; then
+if [ 1 = "`echo $TERMCAP | grep -c screen`" ]; then
+    source ~/.bashrc_exported
+    echo_i "We're in screen..."
+fi
+fi
+
+
+
+if false; then
+#
+# Mac OS X - MacPorts
+#
+
+if [ -d /opt/local/bin ]; then
+    #echo_i Using DarwinPorts
+    #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    #export MANPATH=/opt/local/man:$MANPATH
+    [[ -d /opt/local/bin ]] && modlist PATH /opt/local/bin
+    [[ -d /opt/local/man ]] && modlist MANPATH /opt/local/man
+fi
+
+# Setting PATH for EPD v5.1.1
+[[ -d "/Library/Frameworks/Python.framework/Versions/Current/bin" ]] && modlist PATH "/Library/Frameworks/Python.framework/Versions/Current/bin"
+
+# Wireshark
+#[[ -d "$HOME/usr/local/wireshark/bin" ]] && modlist PATH "$HOME/usr/local/wireshark/bin"
+
+if [[ -f /opt/local/bin/python2.5 ]]; then
+    alias python=python2.5
+fi
+
+fi
+
+if false; then
+    if [[ "$-" == *i* ]]; then
+	echo_i This shell is interactive
+    else
+	echo_i This shell is not interactive
+    fi
+fi
+
+export PATH=$(packlist PATH)
+# why man wants ":" at end of list I have no idea but 'man lstat'
+# won't work w/o it.
+export MANPATH=$(packlist MANPATH):
+export INFOPATH=$(packlist INFOPATH)
+export LD_LIBRARY_PATH=$(packlist LD_LIBRARY_PATH)
+
+# 1/17/14: bbb
+# Groovy
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/home/bboerner/.gvm/bin/gvm-init.sh" ]] && source "/home/bboerner/.gvm/bin/gvm-init.sh"
+
