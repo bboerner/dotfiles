@@ -29,7 +29,8 @@
     editor = vim
 
 [apply]
-    whitespace = nowarn
+#    whitespace = nowarn
+    whitespace = warn
 
 [mergetool]
     keepBackup = false
