@@ -1,12 +1,4 @@
-#
-# Epsilon
-#
-
-if [[ $cygwin -ne 0 ]]; then
-    eps_geometry=${eps_geometry:-""}
-    eps_state=$(cygpath -m "c:\Users\bboerner\AppData\Roaming\Lugaru\Epsilon\epsilon-v13.sta")
-    eps_session=$(cygpath -m "c:\Users\bboerner\AppData\Roaming\Lugaru\Epsilon\epsilon.ses")
-
+if [[ $cygwin -eq 1 ]]; then
     function cyg_explorer {
         if [ "${1}" = "" ];
             then
@@ -48,5 +40,3 @@ if [[ $cygwin -ne 0 ]]; then
         echo \"$(cygpath -u -a $1)\"
     }
 fi
-
-export eps_geometry eps_state eps_session
