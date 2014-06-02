@@ -1,2 +1,5 @@
 # Google Dart
-[[ -d $HOME/.local/dart/dart-sdk/bin ]] && export PATH=$HOME/.local/dart/dart-sdk/bin:$PATH
+if false ; then
+    DART_ROOT="$HOME/.local/dart/dart-sdk/bin"
+    [[ -d $DART_ROOT/bin ]] && export PATH=$DART_ROOT/bin:$PATH
+fi
