@@ -33,20 +33,23 @@ config_files=($BASHRC/**/*.bash)
 config_files_paths=($BASHRC/**/path.bash)
 config_files_completions=($BASHRC/**/completion.bash)
 
+if false ; then
+echo "config_files_paths: ${config_files_paths[@]}"
+echo "config_files_completions: ${config_files_completions[@]}"
+echo "config_files: ${config_files[@]}"
+fi
 
 # load the path files
-for file in ${config_files_paths} ;
-do
-  #echo "Sourcing paths: $file"
-  source $file
+for file in ${config_files_paths[@]} ; do
+    #echo "Sourcing paths: $file"
+    source $file
 done
 
 # load everything but the path and completion files
 files=(${config_files[@]#*/path.bash})
-for file in ${files[@]#*/completion.bash} ;
-do
-  #echo "Sourcing anything but paths and completion: $file"
-  source $file
+for file in ${files[@]#*/completion.bash} ; do
+    #echo "Sourcing anything but paths and completion: $file"
+    source $file
 done
 
 # initialize autocomplete here, otherwise functions won't be loaded
@@ -54,10 +57,9 @@ done
 #compinit
 
 # load every completion after autocomplete loads
-for file in ${config_files_completions} ;
-do
-  #echo "Sourcing completions: $file"
-  source $file
+for file in ${config_files_completions[@]} ; do
+    #echo "Sourcing completions: $file"
+    source $file
 done
 
 unset config_files
@@ -74,7 +76,6 @@ fi
 if false ; then
 export EDITOR=vi
 export EDITOR='epsilon -p0'
-fi
 
 system_cpu=`uname -m`
 kernel_name=`uname -s`
@@ -94,7 +95,9 @@ if [[ $cygwin -eq 0 ]]; then
 else
     ulimit -c 1000000;
 fi
+fi
 
+if false ; then
 # packlist(): given a colon separated list, remove pairs of "::" e.g.
 # "a:b:c::d:e:f" becomes "a:b:c:d:e:f".
 
@@ -193,15 +196,17 @@ function ipssh {
     ssh $user@$ip -p $port
 }
 
+fi
+
 #
 #
 #
 
 WORK=$HOME/trees
 
+if false ; then
 export PAGER=less
 
-if false ; then
 # misc from Jeff Bone
 HISTSIZE=1000000
 HISTFILESIZE=1000000
@@ -229,6 +234,7 @@ function echo_i() {
     echo ""
 }
 
+if false ; then
 eps_state=""
 eps_session=""
 if [[ $cygwin -ne 0 ]]; then
@@ -275,6 +281,7 @@ if [[ $cygwin -ne 0 ]]; then
 
         echo \"$(cygpath -u -a $1)\"
     }
+fi
 fi
 
 #
@@ -346,6 +353,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+if false ; then
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -385,6 +393,8 @@ xterm*|rxvt*)
     ;;
 esac
 
+fi
+
 if false ; then
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -400,11 +410,14 @@ fi
 fi
 
 
-#export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a; history -r'
+if false; then
 export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a'
+#export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a; history -r'
 #export PROMPT_COMMAND='history -a'
 #export PS1='\u@\h:\w\$ '
+fi
 
+if false ; then
 # User specific aliases and functions
 alias c=cat
 alias cls=clear
@@ -442,6 +455,8 @@ alias cppsandbox='cd /home/bboerner/projects/c++/sandbox'
 alias libmp='cd /home/bboerner/projects/c++/libmp'
 alias platform='cd /home/bboerner/projects/platform'
 
+fi
+
 case $HOSTNAME in
     laptop*|Boerner*|surrender*|lan*|localhost*|newpc*|centos*|profitable*|prometheus*|love*)
         ;;
@@ -455,8 +470,8 @@ case $HOSTNAME in
         ;;
 esac
 
-export JAVA_HOME
-export PATH=$JAVA_HOME/bin:$PATH
+#export JAVA_HOME
+#export PATH=$JAVA_HOME/bin:$PATH
 
 # ~/usr/local/lib
 MY_LIBS=
@@ -466,6 +481,7 @@ fi
 
 fi
 
+if false ; then
 [[ -d $HOME/.local/bin ]] && export PATH=$HOME/.local/bin:$PATH
 [[ -d $HOME/bin ]] && export PATH=$HOME/bin:$PATH
 [[ -d $HOME/usr/local/bin ]] && export PATH=$HOME/usr/local/bin:$PATH
@@ -473,6 +489,7 @@ fi
 [[ -d $HOME/usr/local/anaconda/bin ]] && export PATH=$HOME/usr/local/anaconda/bin:$PATH
 # Google Dart
 [[ -d $HOME/.local/dart/dart-sdk/bin ]] && export PATH=$HOME/.local/dart/dart-sdk/bin:$PATH
+fi
 
 #
 #   Left here for 32-bit vs. 64-bit example; also useful for Cygwin
@@ -572,5 +589,4 @@ export LD_LIBRARY_PATH=$(packlist LD_LIBRARY_PATH)
 # 1/17/14: bbb
 # Groovy
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/home/bboerner/.gvm/bin/gvm-init.sh" ]] && source "/home/bboerner/.gvm/bin/gvm-init.sh"
-
+#[[ -s "/home/bboerner/.gvm/bin/gvm-init.sh" ]] && source "/home/bboerner/.gvm/bin/gvm-init.sh"

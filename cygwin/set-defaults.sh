@@ -1,0 +1,1 @@
+# Sets reasonable Cygwin defaults.
