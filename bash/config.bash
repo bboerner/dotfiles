@@ -1,3 +1,26 @@
+HISTSIZE=1000000
+HISTFILESIZE=1000000
+export HISTSIZE
+export HISTFILESIZE
+shopt -s histappend
+history -a "$HISTFILE"
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -22,8 +45,6 @@ fi
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${hostname%%.*}:${PWD/$HOME/~}\007"; history -a'
-    #export PS1='\u@\h:\w\$ '
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
@@ -54,12 +75,5 @@ fpath=($ZSH/functions $fpath)
 
 #autoload -U $ZSH/functions/*(:t)
 fi
-
-HISTSIZE=1000000
-HISTFILESIZE=1000000
-export HISTSIZE
-export HISTFILESIZE
-shopt -s histappend
-history -a "$HISTFILE"
 
 

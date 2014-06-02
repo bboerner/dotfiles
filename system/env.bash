@@ -10,4 +10,3 @@ export PAGER=less
 # have this option on by default. "
 shopt -s extglob
 
-export HOSTNAME

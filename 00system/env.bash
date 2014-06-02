@@ -1,3 +1,6 @@
+export HOSTNAME
+export hostname=$HOSTNAME
+
 system_cpu=`uname -m`
 kernel_name=`uname -s`
 
