@@ -2,6 +2,7 @@
 
 # User specific aliases and functions
 alias c=cat
+alias cd='cd -P'
 alias cls=clear
 alias del='rm'
 #alias dir='ls -lF'
