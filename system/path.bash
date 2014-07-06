@@ -7,4 +7,6 @@
 [[ -d $HOME/usr/local/share/man ]] && export MANPATH=$HOME/usr/local/share/man:$MANPATH
 
 # LD_LIBRARY_PATH
-[[ -d $HOME/usr/local/lib ]] && export LD_LIBRARY_PATH=$HOME/usr/local/lib:$LD_LIBRARY_PATH
+[[ -d $HOME/usr/local/lib ]] && export LD_LIBRARY_PATH="$HOME/usr/local/lib:$LD_LIBRARY_PATH"
+[[ -d /lib/i386-linux-gnu ]] && export LD_LIBRARY_PATH="/lib/i386-linux-gnu:$LD_LIBRARY_PATH"
+[[ -d /lib/x86_64-linux-gnu ]] && export LD_LIBRARY_PATH="/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
