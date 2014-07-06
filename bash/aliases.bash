@@ -5,6 +5,7 @@ alias c=cat
 alias cd='cd -P'
 alias cls=clear
 alias del='rm'
+alias dotfiles='pushd ~/.dotfiles'
 #alias dir='ls -lF'
 alias ep='epsilon -server:ept -add -vt'
 alias epnoadd='epsilon -vt'
