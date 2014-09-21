@@ -147,7 +147,7 @@
 
 [branch]
     autosetupmerge = true
-    autosetuprebase = true
+    autosetuprebase = always
 
 [core]
     autocrlf = false
