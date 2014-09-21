@@ -22,7 +22,7 @@ elif [ -x /usr/bin/dircolors ]; then
     alias gl='ls -lAh --colour=auto'
     alias ll='ls -l --colour=auto'
     alias la='ls -A --colour=auto'
-    alias dir='dir -lF --color=auto'
+    alias dir='ls -lF --color=auto'
     alias vdir='vdir --color=auto'
 
 fi
