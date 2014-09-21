@@ -147,11 +147,7 @@
 
 [branch]
     autosetupmerge = true
-<<<<<<< HEAD
-    autosetuprebase = true
-=======
     autosetuprebase = always
->>>>>>> master
 
 [core]
     autocrlf = false
