@@ -13,5 +13,13 @@ then
     alias f='fasd -f' # file
     alias z='fasd_cd -d' # cd, same functionality as j in autojump
     alias t='fasd_cd -d -i' # interactive directory jump
+
+    function fp {
+        pushd $(fasd -d $1)
+    }
+
+    function fpi {
+        pushd $(fasd -di $1)
+    }
 fi
 
