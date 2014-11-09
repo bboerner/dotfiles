@@ -132,7 +132,7 @@
 [merge]
     summary = true
     verbosity = 1
-    tool = gvimdiff
+    tool = meld
 
 [mergetool]
     prompt = false
