@@ -150,7 +150,7 @@
     autosetuprebase = always
 
 [core]
-    autocrlf = false
+    autocrlf = input
     editor = vim
     excludesfile = ~/.gitignore
     filemode = false
