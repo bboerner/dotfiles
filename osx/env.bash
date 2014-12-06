@@ -1,3 +1,16 @@
+
+#
+# Mac OS X - Pythong
+#
+
+PYTHON_ROOT="$HOME/Library/Python/2.7"
+if [[ -d $PYTHON_ROOT/bin ]]; then
+    export PATH="$PYTHON_ROOT/bin:$PATH"
+    [[ -d $PYTHON_ROOT/man ]] && export MANPATH="$PYTHON_ROOT/man:$MANPATH"
+    [[ -d $PYTHON_ROOT/lib ]] && export LD_LIBRARY_PATH="$PYTHON_ROOT/lib:$LD_LIBRARY_PATH"
+fi
+unset PYTHON_ROOT
+
 if false; then
 #
 # Mac OS X - MacPorts
