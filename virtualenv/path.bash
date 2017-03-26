@@ -1,5 +1,5 @@
 # http://virtualenvwrapper.readthedocs.org/en/latest/install.html
-if $(which virtualenvwrapper.sh) ; then
+if $(which virtualenvwrapper.sh 2>&1 > /dev/null) ; then
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME="$HOME/.play.local/python/virtualenv"
     #export VIRTUALENVWRAPPER_SCRIPT="$(which virtualenvwrapper.sh)"

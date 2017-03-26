@@ -80,6 +80,9 @@
     changelog = log --pretty=format:\" * %s\"
     shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
 
+    # praise (blame)
+    praise = blame                    # blame
+
     # pull
     pl = pull                         # pull
 

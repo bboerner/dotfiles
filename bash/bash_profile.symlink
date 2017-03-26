@@ -1,5 +1,9 @@
 # .bash_profile
 
+if $(which keychain 2>&1 > /dev/null) ; then
+    keychain --nogui -q id_rsa id_rsa_cwrsync id_rsa_gitlab id_rsa_gptimber id_rsa_gptimber2
+fi
+
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
     . ~/.bashrc
