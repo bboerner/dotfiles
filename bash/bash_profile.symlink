@@ -1,7 +1,13 @@
 # .bash_profile
 
 if $(which keychain 2>&1 > /dev/null) ; then
-    keychain --nogui -q id_rsa id_rsa_cwrsync id_rsa_gitlab id_rsa_gptimber id_rsa_gptimber2
+    files=""
+    for f in $HOME/.ssh/*.pub ; do
+        files="$files ${f%.pub}"
+    done
+    echo $files
+
+    keychain --nogui -q $files
 fi
 
 # Get the aliases and functions
