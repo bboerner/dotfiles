@@ -1,20 +1,15 @@
 function add_android() {
     echo "Adding Android"
 
-    ANDROIDSDK="$HOME/usr/local/android-sdk-linux"
-    ANDROIDNDK="$HOME/usr/local/android-ndk-r9b"
+    ANDROIDSDK="$HOME/usr/local/android-sdk"
 
-    if [[ -d $ANDROIDSDK && -d $ANDROIDNDK ]] ; then
-        export ANDROIDAPI=19
-        export ANDROIDNDKVER=r9b
-        export PATH=$ANDROIDNDK:$ANDROIDSDK/platform-tools:$ANDROIDSDK/tools:$PATH
-
-        export ANDROIDSDK ANDROIDNDK
+    if [[ -d $ANDROIDSDK ]] ; then
+        export PATH=$ANDROIDSDK/platform-tools:$ANDROIDSDK/tools/bin:$ANDROIDSDK/tools/bin64:$PATH
 
         PS1="[android] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 
     else
-        echo "error: $ANDROIDSDK or $ANDROIDNDK not found."
+        echo "error: $ANDROIDSDK not found."
 
     fi
 }
