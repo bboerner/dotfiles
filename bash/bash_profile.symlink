@@ -5,7 +5,7 @@ if $(which keychain 2>&1 > /dev/null) ; then
     for f in $HOME/.ssh/*.pub ; do
         files="$files ${f%.pub}"
     done
-    keychain --nogui -q $files
+    keychain --inherit any --nogui -q $files
 fi
 
 # Get the aliases and functions

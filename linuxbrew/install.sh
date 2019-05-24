@@ -9,16 +9,25 @@
 if test ! $(which brew) ; then
     if [ "$(uname -s)" == "Linux" ] ; then
         sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
-        git clone https://github.com/bboerner/linuxbrew.git ~/.linuxbrew
-
+        #git clone https://github.com/bboerner/linuxbrew.git ~/.linuxbrew
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
     fi
 fi
 
 # Install homebrew packages
-~/.linuxbrew/bin/brew install grc coreutils spark
+#~/.linuxbrew/bin/brew install grc coreutils spark
+#~linuxbrew/.linuxbrew/bin/brew install grc coreutils spark
 
 
 exit 0
+
+## Alternative Installation
+# http://linuxbrew.sh/
+
+# git clone https://github.com/Linuxbrew/brew.git ~/.linuxbrew
+# PATH="$HOME/.linuxbrew/bin:$PATH"
+# export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+# export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
 
 # ==> Caveats
 # New shell sessions will start using GRC after you add this to your profile:
