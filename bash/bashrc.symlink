@@ -1,5 +1,3 @@
-# $Id: .bashrc,v 1.45 2014/04/17 18:58:23 bboerner Exp bboerner $
-
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
@@ -18,19 +16,10 @@ export BASHRC=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/play
 
-if true ; then
 # all of our bash files
-#typeset -U config_files
-#config_files=($ZSH/**/*.zsh)
 config_files=($BASHRC/**/*.bash)
 config_files_paths=($BASHRC/**/path.bash)
 config_files_completions=($BASHRC/**/completion.bash)
-
-if false ; then
-echo "config_files_paths: ${config_files_paths[@]}"
-echo "config_files_completions: ${config_files_completions[@]}"
-echo "config_files: ${config_files[@]}"
-fi
 
 # load the path files
 for file in ${config_files_paths[@]} ; do
@@ -58,8 +47,6 @@ done
 unset config_files
 unset config_files_paths
 unset config_files_completions
-
-fi
 
 #
 # end Dotfiles
@@ -108,15 +95,9 @@ export MANPATH=$(packlist MANPATH):
 export INFOPATH=$(packlist INFOPATH)
 export LD_LIBRARY_PATH=$(packlist LD_LIBRARY_PATH)
 
-# 1/17/14: bbb
-# Groovy
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-#[[ -s "/home/bboerner/.gvm/bin/gvm-init.sh" ]] && source "/home/bboerner/.gvm/bin/gvm-init.sh"
-
-# 8/9/14: RVM
-#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 . ~/.keychain/$HOSTNAME-sh
 
-export PATH=/usr/local/p/versions/python:$PATH
-
+# dedupe the PATH
+if $(which dedupepath.py 2>&1 > /dev/null) ; then
+    $(dedupepath.py PATH)
+fi

@@ -16,8 +16,3 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-#[[ -s "/home/bboerner/.gvm/bin/gvm-init.sh" ]] && source "/home/bboerner/.gvm/bin/gvm-init.sh"
-
-# 8/9/14: RVM
-#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
