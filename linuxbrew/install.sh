@@ -5,12 +5,15 @@
 # This installs some of the common dependencies needed (or at least desired)
 # using Linuxbrew.
 
+# https://brew.sh/
+
 # Check for Linuxbrew
 if test ! $(which brew) ; then
     if [ "$(uname -s)" == "Linux" ] ; then
         sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
         #git clone https://github.com/bboerner/linuxbrew.git ~/.linuxbrew
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
 fi
 

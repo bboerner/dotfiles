@@ -1,12 +1,14 @@
-function add_android() {
+# 3/12/20: comment out
+function x_add_android() {
     echo "Adding Android"
 
-    ANDROIDSDK="$HOME/usr/local/android-sdk"
+    #ANDROIDSDK="$HOME/usr/local/android-sdk"
+    ANDROIDSDK="$HOME/Android/Sdk"
 
     if [[ -d $ANDROIDSDK ]] ; then
         export PATH=$ANDROIDSDK/platform-tools:$ANDROIDSDK/tools/bin:$ANDROIDSDK/tools/bin64:$PATH
 
-        PS1="[android] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        PS1="[android] $PS1"
 
     else
         echo "error: $ANDROIDSDK not found."
@@ -27,7 +29,7 @@ function add_studio() {
 
         #export STUDIO
 
-        PS1="[android studio] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        PS1="[android] $PS1"
 
     else
         echo "error: $STUDIO not found."
