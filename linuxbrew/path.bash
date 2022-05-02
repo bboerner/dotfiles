@@ -1,12 +1,8 @@
-BREW_ROOT="$HOME/.linuxbrew"
-BREW_OPT_LIBEXEC="$BREW_ROOT/Cellar/coreutils/8.22/libexec"
-
-# Use the 'g' prefixed commands
-[[ -d $BREW_ROOT/bin ]] && export PATH="$BREW_ROOT/bin:$PATH"
-[[ -d $BREW_ROOT/lib ]] && export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$BREW_ROOT/lib"
-#[[ -d $BREW_ROOT/share/man ]] && export MANPATH="$BREW_ROOT/share/man:$MANPATH"
+# 5/14/19
+# 10/18/20: Disable linuxbrew. Lot of conflicts on ubuntu 18.04. Maybe
+# turn into a function.
+#[[ -f /home/linuxbrew/.linuxbrew/bin/brew ]] && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 # w/o the 'g' prefix
-#[[ -d $BREW_OPT_LIBEXEC/gnubin ]] && export PATH="$BREW_OPT_LIBEXEC/gnubin:$PATH"
-#[[ -d $BREW_OPT_LIBEXEC/gnuman ]] && export MANPATH="$BREW_OPT_LIBEXEC/gnuman:$MANPATH"
+#PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
 
