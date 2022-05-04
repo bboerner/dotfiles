@@ -11,7 +11,9 @@ if [[ "${kernel_name%*_NT-5*}" = "CYGWIN" || "${kernel_name%*_NT-6*}" = "CYGWIN"
 fi
 
 if [[ $cygwin -eq 0 ]]; then
-    ulimit -c 1000000000;
+    #ulimit -c 1000000000;
+    # 10 Gb
+    ulimit -c 10737418240;
 else
     ulimit -c 1000000;
 fi
