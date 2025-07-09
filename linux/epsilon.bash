@@ -5,8 +5,10 @@
 # tbd1234: make this smarter (check for file)
 #eps_geometry=${eps_geometry:-"100x50"}
 eps_geometry=${eps_geometry:-""}
-eps_state=${eps_state:-""}
-eps_session=${eps_session:-""}
+_eps_state=${HOME}/.epsilon/epsilon-v14.sta
+eps_state=${eps_state:-$_eps_state}
+_eps_session=${HOME}/.epsilon/epsilon.${hostname}.ses
+eps_session=${eps_session:-$_eps_session}
 
 function apply_strip_mnt {
     args="$*"

@@ -2,6 +2,7 @@
 
 # User specific aliases and functions
 alias c=cat
+alias cal='ncal -C'
 alias cd='cd -P'
 alias cls=clear
 alias del='rm'

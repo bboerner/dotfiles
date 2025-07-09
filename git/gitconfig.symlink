@@ -111,7 +111,7 @@
     # status
     s = status                        # status
     st = status                       # status
-    stat = status                     # status
+    stat = -p status                  # status
 
     # tag
     t = tag -n                        # show tags with <n> lines of each tag message
@@ -185,3 +185,7 @@
 [help]
     autocorrect = 1
 
+[init]
+	defaultBranch = main
+[cola]
+	spellcheck = false
