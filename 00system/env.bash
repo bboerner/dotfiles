@@ -1,3 +1,8 @@
+# determine IP# of host from which I logged in else 'console'
+remote_ip="${SSH_CLIENT/ */}"
+remote_ip=${remote_ip:-"console"}
+#echo "remote_ip: $remote_ip"
+
 export HOSTNAME
 export hostname=$HOSTNAME
 
