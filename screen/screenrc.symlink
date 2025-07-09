@@ -12,8 +12,8 @@
 #autodetach on
 #
 ## don't display the copyright page
-#startup_message off
-#
+startup_message off
+
 ## emulate .logout message
 #pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 #
@@ -29,9 +29,9 @@
 #
 ## set every new windows hardstatus line to somenthing descriptive
 ## defhstatus "screen: ^En (^Et)"
-#
-#defscrollback 10000
-#
+
+defscrollback 10000
+
 ## don't kill window after the process died
 ## zombie "^["
 #
@@ -100,6 +100,15 @@
 #termcapinfo  vt100 Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
 #
 #
+
+# https://gist.github.com/joaopizani/2718397
+# not sure what this does
+# 256 colors
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce on
+
+
 #################
 ##
 ## keybindings
@@ -149,6 +158,7 @@ escape ^Nn
 ##
 ## attrcolor u "-u b"
 ## attrcolor b "R"
+
 #
 #
 #width 132

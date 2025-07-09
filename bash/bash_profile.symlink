@@ -5,7 +5,7 @@ if $(which keychain 2>&1 > /dev/null) ; then
     for f in $HOME/.ssh/*.pub ; do
         files="$files ${f%.pub}"
     done
-    keychain --nogui -q $files
+    keychain --inherit any --nogui -q $files
 fi
 
 # Get the aliases and functions
@@ -31,9 +31,3 @@ fi
 
 fi
 
-
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-#[[ -s "/home/bboerner/.gvm/bin/gvm-init.sh" ]] && source "/home/bboerner/.gvm/bin/gvm-init.sh"
-
-# 8/9/14: RVM
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

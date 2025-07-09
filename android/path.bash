@@ -1,20 +1,17 @@
-function add_android() {
+# 3/12/20: comment out
+function x_add_android() {
     echo "Adding Android"
 
-    ANDROIDSDK="$HOME/usr/local/android-sdk-linux"
-    ANDROIDNDK="$HOME/usr/local/android-ndk-r9b"
+    #ANDROIDSDK="$HOME/usr/local/android-sdk"
+    ANDROIDSDK="$HOME/Android/Sdk"
 
-    if [[ -d $ANDROIDSDK && -d $ANDROIDNDK ]] ; then
-        export ANDROIDAPI=19
-        export ANDROIDNDKVER=r9b
-        export PATH=$ANDROIDNDK:$ANDROIDSDK/platform-tools:$ANDROIDSDK/tools:$PATH
+    if [[ -d $ANDROIDSDK ]] ; then
+        export PATH=$ANDROIDSDK/platform-tools:$ANDROIDSDK/tools/bin:$ANDROIDSDK/tools/bin64:$PATH
 
-        export ANDROIDSDK ANDROIDNDK
-
-        PS1="[android] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        PS1="[android] $PS1"
 
     else
-        echo "error: $ANDROIDSDK or $ANDROIDNDK not found."
+        echo "error: $ANDROIDSDK not found."
 
     fi
 }
@@ -32,7 +29,7 @@ function add_studio() {
 
         #export STUDIO
 
-        PS1="[android studio] ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        PS1="[android] $PS1"
 
     else
         echo "error: $STUDIO not found."
